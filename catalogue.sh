@@ -32,7 +32,7 @@ curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zi
 validate $? "download the artifact"
 cd /app  &>>$LOGFILE
 validate $? "Moving to app dir"
-unzip /tmp/catalogue.zip &>>$LOGFILE
+gunzip /tmp/catalogue.zip &>>$LOGFILE
 validate $? "unzip catalogue"
 npm install  &>>$LOGFILE
 validate $? "Checking npm dependencies"
@@ -50,3 +50,5 @@ yum install mongodb-org-shell -y &>>$LOGFILE
 validate $? "Installation of mongo client"
 mongo --host mongo.padmasrikanth.tech </app/schema/catalogue.js &>>$LOGFILE
 validate $? "load the data to the mongodb"
+
+
