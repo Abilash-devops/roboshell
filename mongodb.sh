@@ -1,7 +1,7 @@
 #!/bin/bash
 D=$(date +%F:%H:%M:%S)
 SCRIPT_NAME=$0
-LOG_PATH=/home/centos/roboshell/logs
+LOG_PATH=/home/centos/abishellproject/logs
 LOGFILE=$LOG_PATH/$0-$D-log
 u=$(id -u)
 R="\e[31m"
@@ -15,7 +15,7 @@ exit 1
 fi
 validate(){
     if [ $? -ne 0 ]
-    then 
+    then
         echo -e " $2 is $R FAILURE $N"
         exit 1
     else
@@ -23,14 +23,27 @@ validate(){
     fi
 }
 
-cp -rp /home/centos/roboshell/mongo.repo /etc/yum.repos.d/mongo.repo  &>>$LOGFILE
+cp -rp /home/centos/abishellproject/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
+
+validate $? "copy repo" 
+
 yum install mongodb-org -y &>>$LOGFILE
-validate $? "Installed mongodb"
+
+validate $? "intall mongodb" 
+
 systemctl enable mongod &>>$LOGFILE
-validate $? "Enabled mongodb"
+
+validate $? "enable service" 
+
 systemctl start mongod &>>$LOGFILE
-validate $? "validated mongodb"
+
+validate $? "start service" 
+
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf &>>$LOGFILE
-validate $? "Edited  mongodb config file" 
+
+validate $? "replace config IP" 
+
 systemctl restart mongod &>>$LOGFILE
-validate $? "restarted mongodb again " 
+
+validate $? "restart service" 
+

@@ -1,7 +1,7 @@
 #!/bin/bash
 D=$(date +%F:%H:%M:%S)
 SCRIPT_NAME=$0
-LOG_PATH=/home/centos/roboshell/logs
+LOG_PATH=/home/centos/abishellproject/logs
 LOGFILE=$LOG_PATH/$0-$D-log
 u=$(id -u)
 R="\e[31m"
@@ -15,40 +15,66 @@ exit 1
 fi
 validate(){
     if [ $? -ne 0 ]
-    then 
+    then
         echo -e " $2 is $R FAILURE $N"
         exit 1
     else
         echo -e " $2 is $G SUCCESS $N"
     fi
 }
+
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$LOGFILE
-validate $? "Setting up NPM Source"
+
+validate $? "copy nodejs repo"
+
 yum install nodejs -y &>>$LOGFILE
-validate $? "NodeJs installation"
+
+validate $? "install nodejs"
+
 useradd roboshop &>>$LOGFILE
+
 mkdir /app &>>$LOGFILE
+
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
-validate $? "download the artifact"
-cd /app  &>>$LOGFILE
-validate $? "Moving to app dir"
+
+validate $? "download the catalogue package"
+
+cd /app &>>$LOGFILE
+
+validate $? "cd app"
+
 unzip /tmp/catalogue.zip &>>$LOGFILE
-validate $? "unzip catalogue"
-npm install  &>>$LOGFILE
-validate $? "Checking npm dependencies"
-cp -rp /home/centos/roboshell/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
-validate $? "Copy the catalogue service"
+
+validate $? "unzip catalogue zip"
+
+npm install &>>$LOGFILE
+
+validate $? "validate dependencies"
+
+cp -rp /home/centos/abishellproject/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
+
+validate $? "catalogue.servcie file"
+
 systemctl daemon-reload &>>$LOGFILE
-validate $? "load the deaomon catalogue service"
+
+validate $? "reload service"
+
 systemctl enable catalogue &>>$LOGFILE
-validate $? "enable the deaomon catalogue service"
+
+validate $? "enable service"
+
 systemctl start catalogue &>>$LOGFILE
-validate $? "start the deaomon catalogue service"
-cp -rp /home/centos/roboshell/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
-validate $? "copy the repo for client"
+
+validate $? "start service"
+
+cp -rp /home/centos/abishellproject/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
+
+validate $? "copy mongo.repo"
+
 yum install mongodb-org-shell -y &>>$LOGFILE
-validate $? "Installation of mongo client"
-mongo --host mongo.padmasrikanth.tech </app/schema/catalogue.js &>>$LOGFILE
-validate $? "load the data to the mongodb"
 
+validate $? "install mongo client"
 
+mongo --host mongodb.abilashhareendran.in </app/schema/catalogue.js &>>$LOGFILE
+
+validate $? "push data to mongodb"

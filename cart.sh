@@ -1,7 +1,7 @@
 #!/bin/bash
 D=$(date +%F:%H:%M:%S)
 SCRIPT_NAME=$0
-LOG_PATH=/home/centos/roboshell/logs
+LOG_PATH=/home/centos/abishellproject/logs
 LOGFILE=$LOG_PATH/$0-$D-log
 u=$(id -u)
 R="\e[31m"
@@ -15,32 +15,55 @@ exit 1
 fi
 validate(){
     if [ $? -ne 0 ]
-    then 
+    then
         echo -e " $2 is $R FAILURE $N"
         exit 1
     else
         echo -e " $2 is $G SUCCESS $N"
     fi
 }
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$LOGFILE
-validate $? "Setting up NPM Source"
-yum install nodejs -y &>>$LOGFILE
-validate $? "NodeJs installation"
-useradd roboshop &>>$LOGFILE
-mkdir /app &>>$LOGFILE
-curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart.zip &>>$LOGFILE
-validate $? "download the artifact"
-cd /app  &>>$LOGFILE
-validate $? "go to app diretory"
-unzip /tmp/cart.zip &>>$LOGFILE
-validate $? "unzip the artifact"
-npm install &>>$LOGFILE
-validate $? "Install the dependencies"
-cp -rp /home/centos/roboshell/cart.service /etc/systemd/system/cart.service &>>$LOGFILE
-validate $? "copied the service"
-systemctl daemon-reload &>>$LOGFILE
-validate $? "load the deaomon cart service"
-systemctl enable cart &>>$LOGFILE
-validate $? "enable the deaomon cart service"
-systemctl start cart &>>$LOGFILE
-validate $? "start the deaomon cart service"
+
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> $LOGFILE
+
+validate $? "download nodejs"
+
+yum install nodejs -y &>> $LOGFILE
+sleep 20
+
+validate $? "install nodejs"
+
+useradd roboshop &>> $LOGFILE
+
+mkdir /app &>> $LOGFILE
+
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart.zip &>> $LOGFILE
+
+validate $? "copy package"
+
+cd /app &>> $LOGFILE
+
+validate $? "cd app"
+
+unzip /tmp/cart.zip &>> $LOGFILE
+
+validate $? "unzip package"
+
+npm install  &>> $LOGFILE
+
+validate $? "depencencies package"
+
+cp -rp /home/centos/abishellproject/cart.service /etc/systemd/system/cart.service &>> $LOGFILE
+
+validate $? "user service file"
+
+systemctl daemon-reload &>> $LOGFILE
+
+validate $? "reload service"
+
+systemctl enable cart &>> $LOGFILE
+
+validate $? "enable service"
+
+systemctl start cart &>> $LOGFILE
+
+validate $? "start service"
