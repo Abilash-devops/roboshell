@@ -28,11 +28,11 @@ yum install nodejs -y &>>$LOGFILE
 validate $? "NodeJs installation"
 useradd roboshop &>>$LOGFILE
 mkdir /app &>>$LOGFILE
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
 validate $? "download the artifact"
 cd /app  &>>$LOGFILE
 validate $? "Moving to app dir"
-gunzip /tmp/catalogue.zip &>>$LOGFILE
+unzip /tmp/catalogue.zip &>>$LOGFILE
 validate $? "unzip catalogue"
 npm install  &>>$LOGFILE
 validate $? "Checking npm dependencies"
