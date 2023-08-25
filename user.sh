@@ -44,6 +44,7 @@ systemctl enable user &>>$LOGFILE
 validate $? "enable the deaomon user service"
 systemctl start user &>>$LOGFILE
 validate $? "start the deaomon user service"
+cp -rp  /home/centos/roboshell/mongo.repo   /etc/yum.repos.d/mongo.repo
 yum install mongodb-org-shell -y &>>$LOGFILE
 validate $? "Install mongo clinet"
 mongo --host mongo.padmasrikanth.tech </app/schema/user.js
