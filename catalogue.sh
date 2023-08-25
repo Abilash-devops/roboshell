@@ -1,7 +1,7 @@
 #!/bin/bash
 D=$(date +%F:%H:%M:%S)
 SCRIPT_NAME=$0
-LOG_PATH=/home/centos/abishellproject/logs
+LOG_PATH=/home/centos/roboshell/logs
 LOGFILE=$LOG_PATH/$0-$D-log
 u=$(id -u)
 R="\e[31m"
@@ -51,7 +51,7 @@ npm install &>>$LOGFILE
 
 validate $? "validate dependencies"
 
-cp -rp /home/centos/abishellproject/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
+cp -rp /home/centos/roboshell/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
 
 validate $? "catalogue.servcie file"
 
@@ -67,7 +67,7 @@ systemctl start catalogue &>>$LOGFILE
 
 validate $? "start service"
 
-cp -rp /home/centos/abishellproject/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
+cp -rp /home/centos/roboshell/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
 
 validate $? "copy mongo.repo"
 
@@ -75,6 +75,6 @@ yum install mongodb-org-shell -y &>>$LOGFILE
 
 validate $? "install mongo client"
 
-mongo --host mongodb.abilashhareendran.in </app/schema/catalogue.js &>>$LOGFILE
+mongo --host mongodb.padmasrikanth.tech </app/schema/catalogue.js &>>$LOGFILE
 
 validate $? "push data to mongodb"

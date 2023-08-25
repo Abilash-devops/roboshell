@@ -1,7 +1,7 @@
 #!/bin/bash
 D=$(date +%F:%H:%M:%S)
 SCRIPT_NAME=$0
-LOG_PATH=/home/centos/abishellproject/logs
+LOG_PATH=/home/centos/roboshell/logs
 LOGFILE=$LOG_PATH/$0-$D-log
 u=$(id -u)
 R="\e[31m"
@@ -27,7 +27,7 @@ yum module disable mysql -y &>> $LOGFILE
 
 validate $? "disable mysql repo"
 
-cp -rp /home/centos/abishellproject/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
+cp -rp /home/centos/roboshell/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
 
 validate $? "copy repo file"
 

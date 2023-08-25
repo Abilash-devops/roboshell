@@ -1,7 +1,7 @@
 #!/bin/bash
 D=$(date +%F:%H:%M:%S)
 SCRIPT_NAME=$0
-LOG_PATH=/home/centos/abishellproject/logs
+LOG_PATH=/home/centos/roboshell/logs
 LOGFILE=$LOG_PATH/$0-$D-log
 u=$(id -u)
 R="\e[31m"
@@ -51,7 +51,7 @@ mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 
 validate $? "move jar files"
 
-cp -rp /home/centos/abishellproject/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
+cp -rp /home/centos/roboshell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 
 validate $? "copy config service file"
 
@@ -71,7 +71,7 @@ yum install mysql -y &>> $LOGFILE
 
 validate $? "install mysql client"
 
-mysql -h mysql.abilashhareendran.in -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
+mysql -h mysql.padmasrikanth.tech -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
 
 validate $? "set password"
 

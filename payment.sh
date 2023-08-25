@@ -1,7 +1,7 @@
 #!/bin/bash
 D=$(date +%F:%H:%M:%S)
 SCRIPT_NAME=$0
-LOG_PATH=/home/centos/abishellproject/logs
+LOG_PATH=/home/centos/roboshell/logs
 LOGFILE=$LOG_PATH/$0-$D-log
 u=$(id -u)
 R="\e[31m"
@@ -47,7 +47,7 @@ pip3.6 install -r requirements.txt &>> $LOGFILE
 
 validate $? "depencencies install"
 
-cp -rp /home/centos/abishellproject/payment.service /etc/systemd/system/payment.service &>> $LOGFILE
+cp -rp /home/centos/roboshell/payment.service /etc/systemd/system/payment.service &>> $LOGFILE
 
 validate $? "payment service file creation"
 
