@@ -32,4 +32,4 @@ sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis.conf /etc/redis/redis.conf
 systemctl enable redis &>>$LOGFILE
 validate $? "Enable redis"
 systemctl start redis
-valdiate $? "start redis"
+validate $? "start redis"
