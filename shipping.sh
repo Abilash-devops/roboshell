@@ -36,6 +36,8 @@ mvn clean package &>>$LOGFILE
 validate $? "create the package"
 mv target/shipping-1.0.jar shipping.jar &>>$LOGFILE
 validate $? "remane the jar file"
+cp -rp /home/centos/roboshell/shipping.service /etc/systemd/system/shipping.service
+validate $? "moving the shipping service"
 systemctl daemon-reload &>>$LOGFILE
 validate $? "load the deaomon shipping service"
 systemctl enable shipping &>>$LOGFILE
