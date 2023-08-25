@@ -23,22 +23,22 @@ validate(){
     fi
 }
 yum install python36 gcc python3-devel -y &>>$LOGFILE
-valdite $? "Install python"
+validate $? "Install python"
 useradd roboshop &>>$LOGFILE
 mkdir /app &>>$LOGFILE
 curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment.zip &>>$LOGFILE
-valdite $? "Download code"
+validate $? "Download code"
 cd /app &>>$LOGFILE
-valdite $? "switch to app dir"
+validate $? "switch to app dir"
 unzip /tmp/payment.zip &>>$LOGFILE
-valdite $? "extract code"
+validate $? "extract code"
 pip3.6 install -r requirements.txt &>>$LOGFILE
-valdite $? "run dependencies"
+validate $? "run dependencies"
 cp -rp /home/centos/roboshell/payment.service /etc/systemd/system/payment.service &>>$LOGFILE
-valdite $? "update the service file"
+validate $? "update the service file"
 systemctl daemon-reload &>>$LOGFILE
-valdite $? "reload the service file"
+validate $? "reload the service file"
 systemctl enable payment &>>$LOGFILE
-valdite $? "enable the service file"
+validate $? "enable the service file"
 systemctl start payment &>>$LOGFILE
-valdite $? "start the service file"
+validate $? "start the service file"
