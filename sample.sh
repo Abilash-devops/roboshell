@@ -16,8 +16,9 @@ do
     fi
     echo "Creating $i instance"
     j=$(aws ec2 run-instances --image-id $ami_id --instance-type $INSTANCE_TYPE --security-group-ids $sg_id --subnet-id $subnet_id --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" | jq -r '.Instances[0].PrivateIpAddress')
-    echo "Respective private for the $i instance is $j"
-
+    echo "Respective private for the $i instance is $j" 
+    k=$(aws ec2 describe-instances --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" | jq -r '.Reservations[].Instances[].InstanceId')
+    echo $k  
 aws route53 change-resource-record-sets --hosted-zone-id $hosted_zone_id --change-batch '
 {
         "Changes": [
