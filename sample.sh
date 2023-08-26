@@ -14,11 +14,18 @@ do
     else
     INSTANCE_TYPE=t2.micro
     fi
+    instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values="'$i'" | jq -r '.Reservations[].Instances[].InstanceId')
+    running=$(aws ec2 describe-instances --instance-ids $instance_id | jq -r '.Reservations[].Instances[].State.Name')
+    if [ "$running" == "running" ]
+    then 
+    echo "The EC2 instance $instance_id is already running. Not launching a new instance."
+    exit 1
+    fi
     echo "Creating $i instance"
     j=$(aws ec2 run-instances --image-id $ami_id --instance-type $INSTANCE_TYPE --security-group-ids $sg_id --subnet-id $subnet_id --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" | jq -r '.Instances[0].PrivateIpAddress')
-    echo "Respective private for the $i instance is $j" 
-    k=$(aws ec2 describe-instances --filters Name=tag:Name,Values="'$i'" | jq -r '.Reservations[].Instances[].InstanceId')
-    echo $k  
+    echo "Respective private for the $i instance is $j"   
+done
+    
 aws route53 change-resource-record-sets --hosted-zone-id $hosted_zone_id --change-batch '
 {
         "Changes": [
