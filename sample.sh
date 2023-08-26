@@ -17,7 +17,7 @@ do
     instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values="'$i'" | jq -r '.Reservations[].Instances[].InstanceId')
     for instance_id in $instance_ids
     do
-        runnning=$(aws ec2 describe-instances --instance-ids $instance_id | jq -r '.Reservations[].Instances[].State.Name')
+        running=$(aws ec2 describe-instances --instance-ids $instance_id | jq -r '.Reservations[].Instances[].State.Name')
             if [ "$running" == "running" ]
             then 
                 echo "The EC2 instance $instance_id is already running. Not launching a new instance."
