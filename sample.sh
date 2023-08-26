@@ -26,7 +26,7 @@ aws route53 change-resource-record-sets --hosted-zone-id $hosted_zone_id --chang
                 "ResourceRecordSet": {
                     "Name": "'$i.$domain_name'",
                     "Type": "A",
-                    "TTL": 300,
+                    "TTL": 1,
                     "ResourceRecords": [{ "Value": "'$j'"}]
                 }
             }
