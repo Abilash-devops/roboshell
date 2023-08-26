@@ -22,7 +22,7 @@ aws route53 change-resource-record-sets --hosted-zone-id $hosted_zone_id --chang
 {
         "Changes": [
             {
-                "Action": "CREATE",
+                "Action": "UPSERT",
                 "ResourceRecordSet": {
                     "Name": "'$i.$domain_name'",
                     "Type": "A",
