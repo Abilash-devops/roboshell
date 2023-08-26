@@ -5,7 +5,7 @@ ami_id=ami-03265a0778a880afb
 sg_id=sg-0cb4841e0108eb3f0
 subnet_id=subnet-0b7e209a25659cded
 hosted_zone_id=Z05900492SKJC57XITYE4
-domain_name=abilashhareendran.in
+domain_name=padmasrikanth.tech
 for i in ${N[@]}
 do
     if [[ $i == "preprod" || $i == "prod" ]]
