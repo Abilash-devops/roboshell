@@ -25,7 +25,7 @@ aws route53 change-resource-record-sets \
             {
                 "Action": "CREATE",
                 "ResourceRecordSet": {
-                    "Name": '"$i.$domain_name"',
+                    "Name": "'$i.$domain_name'",
                     "Type": "A",
                     "TTL": 300,
                     ResourceRecords": [{ "Value": "'$j'"}]
