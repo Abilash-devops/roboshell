@@ -21,7 +21,7 @@ do
     {
         "Changes": [
             {
-                "Action": "CREATE",
+                "Action": "UPSERT",
                 "ResourceRecordSet": {
                     "Name": "'$i.$domain_name'",
                     "Type": "A",
